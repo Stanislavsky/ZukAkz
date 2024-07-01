@@ -2,16 +2,16 @@ import java.io.File
 
 fun fillStudent(): List<Student> {
     val students = mutableListOf<Student>()
+    val myFor = MyCycle(students)
 
-    for (i in 0..2)
-    {
+    var operationFromTo:(Int) -> Unit = {
         var file = File("");
 
-        if (i == 0)
+        if (it == 0)
         {
             file = File("36_1.csv")
         }
-        else if (i == 1)
+        else if (it == 1)
         {
             file = File("36_2.csv")
         }
@@ -19,6 +19,7 @@ fun fillStudent(): List<Student> {
         {
             file = File("39.csv")
         }
+
         if (file.exists()) {
             file.bufferedReader().useLines { lines ->
                 var lineCount = 0
@@ -58,23 +59,22 @@ fun fillStudent(): List<Student> {
                     student.git = tokens[3]
 
                     var count: Int = 0;
-                    for (i in 4..15)
-                    {
-                        if (tokens[i] == "+")
+
+                    var operationFromTo:(Int) -> Unit =
                         {
-                            count++
+                            if (tokens[it] == "+")
+                            {
+                                count++
+                            }
                         }
-                    }
+
+                    myFor.pushThroughFromTo(operationFromTo,4, 15)
+
                     student.attendanceLectures = count
                     count = 0
 
-                    for (j in 16..27)
-                    {
-                        if (tokens[j] == "+")
-                        {
-                            count++;
-                        }
-                    }
+                    myFor.pushThroughFromTo(operationFromTo,16, 27)
+
                     student.attendancePractitioner = count;
 
                     var listLaboratoryWork = tokens.slice(28..34)
@@ -99,7 +99,10 @@ fun fillStudent(): List<Student> {
         {
             println("Файл не найден")
         }
+
     }
+
+    myFor.pushThroughFromTo(operationFromTo,0, 2)
 
     return students
 }

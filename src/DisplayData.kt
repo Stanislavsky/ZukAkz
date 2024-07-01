@@ -4,27 +4,33 @@ class DisplayData() {
             println("Список студентов пуст")
         } else {
             var prevGroup = ""
-            for (student in students) {
 
-                if (student.group != prevGroup) {
+            val myFor = MyCycle(students)
+
+            val operation:(Student) -> Unit = {
+
+                if (it.group != prevGroup) {
 
                     println()
-                    prevGroup = student.group
+                    prevGroup = it.group
                 }
 
-                print("group: ${student.group}, ")
-                print("ID: ${student.id}, ")
-                print("name: ${student.name}, ")
-                print("extraPoints: ${student.extraPoints}, ")
-                print("git: ${student.git}, ")
-                print("attendanceLectures: ${student.attendanceLectures}, ")
-                print("attendancePractitioner: ${student.attendancePractitioner}, ")
-                print("laboratoryWork: ${student.laboratoryWork}, ")
-                print("individualProject: ${student.individualProject}, ")
-                print("test: ${student.test}, ")
-                print("allowancePoint: ${student.allowancePoint}, ")
-                println("attendanceStudent: ${student.attendanceStudent}")
+                print("group: ${it.group}, ")
+                print("ID: ${it.id}, ")
+                print("name: ${it.name}, ")
+                print("extraPoints: ${it.extraPoints}, ")
+                print("git: ${it.git}, ")
+                print("attendanceLectures: ${it.attendanceLectures}, ")
+                print("attendancePractitioner: ${it.attendancePractitioner}, ")
+                print("laboratoryWork: ${it.laboratoryWork}, ")
+                print("individualProject: ${it.individualProject}, ")
+                print("test: ${it.test}, ")
+                print("allowancePoint: ${it.allowancePoint}, ")
+                println("attendanceStudent: ${it.attendanceStudent}")
             }
+
+            myFor.pushThroughFor(operation)
+
         }
     }
 }

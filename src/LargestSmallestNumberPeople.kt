@@ -2,6 +2,7 @@ class LargestSmallestNumberPeople
 {
     fun finding(students: List<Student>)
     {
+
         if (students.isEmpty())
         {
             println("Список студентов пуст")
@@ -10,52 +11,45 @@ class LargestSmallestNumberPeople
         {
             var counterLaboratoryWork = mutableListOf(0,0,0,0,0,0,0)
             var counterTest = mutableListOf(0,0,0)
-            for (i in students)
-            {
-                if (i.allowancePoint == "недопуск")
-                {
-                    if (i.laboratoryWork[0] != "")
-                    {
+
+            val operation:(Student) -> Unit = {
+                if (it.allowancePoint == "недопуск") {
+                    if (it.laboratoryWork[0] != "") {
                         counterLaboratoryWork[0] += 1
                     }
-                    if (i.laboratoryWork[1] != "")
-                    {
+                    if (it.laboratoryWork[1] != "") {
                         counterLaboratoryWork[1] += 1
                     }
-                    if (i.laboratoryWork[2] != "")
-                    {
+                    if (it.laboratoryWork[2] != "") {
                         counterLaboratoryWork[2] += 1
                     }
-                    if (i.laboratoryWork[3] != "")
-                    {
+                    if (it.laboratoryWork[3] != "") {
                         counterLaboratoryWork[3] += 1
                     }
-                    if (i.laboratoryWork[4] != "")
-                    {
+                    if (it.laboratoryWork[4] != "") {
                         counterLaboratoryWork[4] += 1
                     }
-                    if (i.laboratoryWork[5] != "")
-                    {
+                    if (it.laboratoryWork[5] != "") {
                         counterLaboratoryWork[5] += 1
                     }
-                    if (i.laboratoryWork[6] != "")
-                    {
+                    if (it.laboratoryWork[6] != "") {
                         counterLaboratoryWork[6] += 1
                     }
-                    if (i.test[0] != "-")
-                    {
+                    if (it.test[0] != "-") {
                         counterTest[0] += 1
                     }
-                    if (i.test[1] != "-")
-                    {
+                    if (it.test[1] != "-") {
                         counterTest[1] += 1
                     }
-                    if (i.test[2] != "-")
-                    {
+                    if (it.test[2] != "-") {
                         counterTest[2] += 1
                     }
                 }
             }
+
+            val myFor = MyCycle(students)
+            myFor.pushThroughFor(operation)
+
             val lrWhichCompletedLargestNumber = counterLaboratoryWork.indexOf(counterLaboratoryWork.maxOrNull())
             val krWhichCompletedLargestNumber = counterTest.indexOf(counterTest.maxOrNull())
             println("Лабораторная работа которую выполнило наибольшее количество человек, не получившие допуск: ${lrWhichCompletedLargestNumber + 1}")

@@ -1,42 +1,31 @@
-class Points
-{
-    fun finding(students: List<Student>)
-    {
-        if (students.isEmpty())
-        {
+class Points {
+    fun finding(students: List<Student>) {
+        val mW = MyCycle(students)
+        val myFor = MyCycle(students)
+
+        if (students.isEmpty()) {
             println("Список студентов пуст")
-        }
-        else
-        {
-            var currentGroup: String? = null // Переменная для хранения текущей группы
-            var attendanceOne: Double = 0.0
-            var attendanceTwo: Double = 0.0
+        } else {
+            var currentGroup: String? = null
 
-
-
-            var averageLr: Double = 0.0
-            var averagePr: Double = 0.0
-
-
-            for (i in students)
-            {
-                if (currentGroup != i.group)
-                {
+            val operation: (Student) -> Unit = { student ->
+                if (currentGroup != student.group) {
                     println()
-                    currentGroup = i.group
+                    currentGroup = student.group
                 }
-                print(i.name)
-                var dp: Double = 0.0
-                var result: Double = 0.0
-                var kr: Double = 0.0
-                var lr: Double = 0.0
-                var ap: Double = 0.0
-                var count = 0
+                print(student.name)
 
-                averageLr = i.attendanceLectures.toDouble() / 12 * 5
 
-                averagePr = i.attendancePractitioner.toDouble() / 12 * 5
-                attendanceOne = averageLr + averagePr
+                var attendanceTwo: Double = 0.0
+                var dp = 0.0
+                var result = 0.0
+                var kr = 0.0
+                var lr = 0.0
+                var ap = 0.0
+
+                val averageLr = student.attendanceLectures.toDouble() / 12 * 5
+                val averagePr = student.attendancePractitioner.toDouble() / 12 * 5
+                val attendanceOne = averageLr + averagePr
 
                 if (attendanceOne < 4) {
                     attendanceTwo = 0.0
@@ -50,72 +39,75 @@ class Points
                     attendanceTwo = 10.0
                 }
                 dp += attendanceTwo
-                print(" Посещаемость: " + attendanceTwo)
+                print(" Посещаемость: $attendanceTwo")
 
-                while (count != 7) {
-
-                    if (i.laboratoryWork[count] == "+") {
+                val operationMyWhile7: (Int) -> Unit = { index ->
+                    if (student.laboratoryWork[index] == "+") {
                         lr += 0.5
-                    } else if (i.laboratoryWork[count] == "++") {
-                        lr += 1
-                    } else if (i.laboratoryWork[count] == "д") {
-                        lr += 2
-                    } else if (i.laboratoryWork[count] == "3") {
-                        lr += 3
-                    } else if (i.laboratoryWork[count] == "4") {
-                        lr += 4
-                    } else if (i.laboratoryWork[count] == "5") {
-                        lr += 5
+                    } else if (student.laboratoryWork[index] == "++") {
+                        lr += 1.0
+                    } else if (student.laboratoryWork[index] == "д") {
+                        lr += 2.0
+                    } else if (student.laboratoryWork[index] == "3") {
+                        lr += 3.0
+                    } else if (student.laboratoryWork[index] == "4") {
+                        lr += 4.0
+                    } else if (student.laboratoryWork[index] == "5") {
+                        lr += 5.0
                     } else {
-                        lr += 0
+                        lr += 0.0
                     }
-                    count += 1
+
                 }
+
+                mW.myWhile(operationMyWhile7, "<", 0, student.laboratoryWork.size)
                 dp += lr
-                count = 0
-                while (count != 5)
-                {
-                    if (i.individualProject[count] == "+") {
+
+                val operationMyWhile5: (Int) -> Unit = { index ->
+
+                    if (student.individualProject[index] == "+") {
                         ap += 2
-                    } else if (i.individualProject[count] == "3") {
+                    } else if (student.individualProject[index] == "3") {
                         ap += 3
-                    } else if (i.individualProject[count] == "4") {
+                    } else if (student.individualProject[index] == "4") {
                         ap += 4
-                    } else if (i.individualProject[count] == "5") {
+                    } else if (student.individualProject[index] == "5") {
                         ap += 5
                     } else {
                         ap += 0
                     }
-                    count += 1
+
                 }
+
+                mW.myWhile(operationMyWhile5, "<", 0, student.individualProject.size)
                 result += ap
-                count = 0
-                while (count != 3)
-                {
-                    if (i.test[count] == "д") {
+
+                val operationMyWhile3: (Int) -> Unit = { index ->
+
+                    if (student.test[index] == "д") {
                         kr += 4
-                    } else if (i.test[count] == "3") {
+                    } else if (student.test[index] == "3") {
                         kr += 6
-                    } else if (i.test[count] == "4") {
+                    } else if (student.test[index] == "4") {
                         kr += 8
-                    } else if (i.test[count] == "5") {
+                    } else if (student.test[index] == "5") {
                         kr += 10
                     } else {
                         kr += 0
                     }
-                    count += 1
                 }
+
+                mW.myWhile(operationMyWhile3, "<", 0, student.test.size)
                 dp += kr
                 result += dp
-                result += i.extraPoints
+                result += student.extraPoints
 
-
-                print(" ЛР: " + lr)
-                print(" ЭП: " + ap)
-                print(" Kр: " + kr)
-                println(" ИТОГ: " + result)
-
+                print(" ЛР: $lr")
+                print(" ЭП: $ap")
+                print(" КР: $kr")
+                println(" ИТОГ: $result")
             }
+            myFor.pushThroughFor(operation)
         }
     }
 }
